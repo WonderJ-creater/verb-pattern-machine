@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -558,6 +558,7 @@ const verbs = {
   ask: {
     meaning: '묻다, 부탁하다, 요청하다',
     patterns: [
+      { form:'1형식 변형', structure:'ask + for + 명사', meaning:'~을 요청하다, 달라고 하다', example:'Don\'t hesitate to ask for help.', ko:'도움을 요청하는 것을 망설이지 마세요.' },
       { form:'3형식', structure:'ask + 목(사람/질문)', meaning:'~에게 묻다', example:'She asked a question.', ko:'그녀는 질문을 했어요.' },
       { form:'4형식', structure:'ask + 목(사람) + 목(것)', meaning:'~에게 ~을 부탁하다', example:'He asked me a favor.', ko:'그는 나에게 부탁을 했어요.' },
       { form:'5형식', structure:'ask + 목 + to do', meaning:'~에게 …하도록 요청하다', example:'I asked him to call me.', ko:'나는 그에게 전화해 달라고 했어요.' },
@@ -655,6 +656,7 @@ const verbs = {
     meaning: '멈추다, 막다',
     patterns: [
       { form:'1형식', structure:'stop + (부사)', meaning:'멈추다', example:'The car stopped suddenly.', ko:'차가 갑자기 멈췄어요.' },
+      { form:'1형식 변형', structure:'stop + to do', meaning:'~하기 위해 멈추다 (동작 중단 후 새 행동)', example:'She stopped to check her phone.', ko:'그녀는 폰을 확인하려고 멈췄어요.' },
       { form:'3형식', structure:'stop + -ing', meaning:'~하는 것을 그만두다', example:'He stopped smoking.', ko:'그는 담배를 끊었어요.' },
       { form:'5형식', structure:'stop + 목 + from + -ing', meaning:'~가 …하지 못하게 막다', example:'I stopped him from going.', ko:'나는 그가 가지 못하게 막았어요.' },
     ]
@@ -936,6 +938,56 @@ const verbs = {
       { form:'3형식', structure:'provide + 목(사물)', meaning:'~을 제공하다', example:'The school provides free meals.', ko:'학교는 무료 급식을 제공해요.' },
       { form:'3형식', structure:'provide + for + 명사', meaning:'~을 부양하다, ~에 대비하다', example:'He provides for his family.', ko:'그는 가족을 부양해요.' },
       { form:'4형식', structure:'provide + 목(사람) + with + 명사', meaning:'~에게 ~을 제공하다', example:'She provided us with all the details.', ko:'그녀는 우리에게 모든 세부 사항을 제공했어요.' },
+    ]
+  },
+  forget: {
+    meaning: '잊다, 깜빡하다',
+    patterns: [
+      { form:'3형식', structure:'forget + 목(사물/사람)', meaning:'~을 잊다', example:'I forgot his name.', ko:'나는 그의 이름을 잊었어요.' },
+      { form:'3형식', structure:'forget + -ing', meaning:'(과거에) ~했던 것을 잊다', example:'I\'ll never forget meeting her.', ko:'그녀를 만났던 것을 절대 잊지 못할 거예요.' },
+      { form:'5형식', structure:'forget + to do', meaning:'(앞으로) ~해야 할 것을 잊다', example:'Don\'t forget to lock the door.', ko:'문 잠그는 것 잊지 마세요.' },
+    ]
+  },
+  remember: {
+    meaning: '기억하다, 잊지 않다',
+    patterns: [
+      { form:'3형식', structure:'remember + 목(사물/사람)', meaning:'~을 기억하다', example:'I remember that day clearly.', ko:'나는 그날을 선명하게 기억해요.' },
+      { form:'3형식', structure:'remember + -ing', meaning:'(과거에) ~했던 것을 기억하다', example:'I remember visiting this place.', ko:'이곳을 방문했던 것이 기억나요.' },
+      { form:'5형식', structure:'remember + to do', meaning:'(앞으로) ~해야 할 것을 기억하다', example:'Remember to call her tonight.', ko:'오늘 밤 그녀에게 전화하는 것 기억해요.' },
+    ]
+  },
+  notice: {
+    meaning: '알아채다, 눈치채다',
+    patterns: [
+      { form:'3형식', structure:'notice + 목(사물/상황)', meaning:'~을 알아채다', example:'She noticed a strange smell.', ko:'그녀는 이상한 냄새를 알아챘어요.' },
+      { form:'3형식', structure:'notice + that절', meaning:'~라는 것을 알아채다', example:'I noticed that he was nervous.', ko:'나는 그가 긴장했다는 걸 알아챘어요.' },
+      { form:'5형식', structure:'notice + 목 + 동사원형', meaning:'~가 …하는 것을 알아채다', example:'I noticed her leave the room.', ko:'나는 그녀가 방을 나가는 걸 알아챘어요.' },
+      { form:'5형식', structure:'notice + 목 + -ing', meaning:'~가 …하고 있는 것을 눈치채다', example:'He noticed me watching him.', ko:'그는 내가 자기를 보고 있다는 걸 눈치챘어요.' },
+    ]
+  },
+  regret: {
+    meaning: '후회하다, 유감으로 여기다',
+    patterns: [
+      { form:'3형식', structure:'regret + 목(사물)', meaning:'~을 후회하다', example:'She regrets her decision.', ko:'그녀는 자신의 결정을 후회해요.' },
+      { form:'3형식', structure:'regret + -ing', meaning:'(과거에) ~했던 것을 후회하다', example:'He regrets not studying harder.', ko:'그는 더 열심히 공부하지 않은 것을 후회해요.' },
+      { form:'5형식', structure:'regret + to do', meaning:'(공식적으로) 유감스럽게도 ~하다', example:'I regret to inform you of this.', ko:'유감스럽게도 이것을 알려드려야 해요.' },
+    ]
+  },
+  try: {
+    meaning: '시도하다, 노력하다, 해보다',
+    patterns: [
+      { form:'1형식', structure:'try + (부사)', meaning:'노력하다, 시도하다', example:'Just try again.', ko:'그냥 다시 시도해봐요.' },
+      { form:'3형식', structure:'try + -ing', meaning:'(시험 삼아) ~해보다', example:'Try adding some salt.', ko:'소금을 좀 넣어봐요.' },
+      { form:'5형식', structure:'try + to do', meaning:'~하려고 노력하다 (성공 여부 불분명)', example:'She tried to open the jar.', ko:'그녀는 병을 열려고 했어요.' },
+    ]
+  },
+  learn: {
+    meaning: '배우다, 알게 되다',
+    patterns: [
+      { form:'3형식', structure:'learn + 목(사물/과목)', meaning:'~을 배우다', example:'She is learning Korean.', ko:'그녀는 한국어를 배우고 있어요.' },
+      { form:'3형식', structure:'learn + about/from + 명사', meaning:'~에 대해 / ~에게서 배우다', example:'We can learn from mistakes.', ko:'우리는 실수에서 배울 수 있어요.' },
+      { form:'5형식', structure:'learn + to do', meaning:'~하는 법을 배우다', example:'He learned to play the guitar.', ko:'그는 기타 치는 법을 배웠어요.' },
+      { form:'3형식', structure:'learn + that절', meaning:'~라는 것을 알게 되다', example:'I learned that she had moved.', ko:'나는 그녀가 이사했다는 것을 알게 됐어요.' },
     ]
   },
 };
