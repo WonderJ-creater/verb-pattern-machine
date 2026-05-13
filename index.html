@@ -1,0 +1,1024 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>동사 자판기 🌿</title>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --mint: #6BBFBC;
+    --mint-light: #A8E0DE;
+    --mint-pale: #E2F7F6;
+    --mint-dark: #3E9B99;
+    --mint-darker: #2A7A78;
+    --cream: #FFF8EE;
+    --warm: #FFF0DC;
+    --coral: #FF8C6B;
+    --coral-light: #FFBCAA;
+    --peach: #FFD4B8;
+    --yellow: #FFD97D;
+    --brown: #8B5E52;
+    --text-dark: #2C3A3A;
+    --text-mid: #5A7070;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    min-height:100vh;
+    background: #E8F5F4;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(255,210,180,0.35) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(107,191,188,0.25) 0%, transparent 50%),
+      radial-gradient(circle at 60% 10%, rgba(255,217,125,0.2) 0%, transparent 40%);
+    font-family:'Noto Sans KR', sans-serif;
+    display:flex; flex-direction:column; align-items:center;
+    padding:28px 16px 70px;
+    overflow-x:hidden;
+  }
+
+  /* 제목 */
+  .title-area {
+    text-align:center;
+    margin-bottom:22px;
+  }
+  .title-area h1 {
+    font-family:'Gaegu', cursive;
+    font-size:2.3rem;
+    color: var(--mint-darker);
+    text-shadow: 2px 3px 0 rgba(255,200,160,0.5);
+    letter-spacing:2px;
+  }
+  .title-area .subtitle {
+    font-size:0.82rem;
+    color:var(--text-mid);
+    margin-top:5px;
+  }
+
+  /* 자판기 본체 */
+  .vending-machine {
+    width:100%; max-width:460px;
+    background: linear-gradient(170deg, #72C4C2 0%, #5AADAB 35%, #4A9E9C 70%, #3D8E8C 100%);
+    border-radius:32px 32px 22px 22px;
+    padding:22px 18px 24px;
+    box-shadow:
+      0 24px 64px rgba(62,155,153,0.45),
+      0 8px 24px rgba(0,0,0,0.12),
+      inset 0 2px 8px rgba(255,255,255,0.28),
+      inset 0 -6px 16px rgba(0,0,0,0.12);
+    position:relative;
+  }
+
+  /* 상단 로고 바 */
+  .machine-top {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:16px;
+    padding:0 2px;
+  }
+  .machine-logo {
+    font-family:'Gaegu', cursive;
+    font-size:1.25rem;
+    color:white;
+    text-shadow:1px 2px 6px rgba(0,0,0,0.2);
+    letter-spacing:1px;
+  }
+  .char-left  { font-size:1.7rem; display:inline-block; animation:wobble 3s ease-in-out infinite; }
+  .char-right { font-size:1.7rem; display:inline-block; animation:wobble 3s ease-in-out infinite reverse; }
+  @keyframes wobble { 0%,100%{transform:rotate(-6deg)} 50%{transform:rotate(6deg)} }
+
+  /* 검색 디스플레이 패널 */
+  .search-panel {
+    background:#1C3A3A;
+    border-radius:14px;
+    padding:14px 14px 12px;
+    margin-bottom:14px;
+    border:2px solid #0E2525;
+    box-shadow:inset 0 4px 14px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.2);
+    position:relative;
+    overflow:hidden;
+  }
+  .search-panel::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:35%;
+    background:linear-gradient(rgba(255,255,255,0.04), transparent);
+    border-radius:12px 12px 0 0;
+    pointer-events:none;
+  }
+  .search-label {
+    font-size:0.6rem;
+    color:#6AECEC;
+    letter-spacing:2px;
+    font-weight:700;
+    text-transform:uppercase;
+    margin-bottom:8px;
+    font-family:'DM Mono', monospace;
+  }
+  .search-row {
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+  .search-input {
+    flex:1;
+    background:rgba(255,255,255,0.08);
+    border:1.5px solid rgba(106,236,236,0.3);
+    border-radius:8px;
+    padding:9px 12px;
+    color:#A8FFEE;
+    font-family:'DM Mono', monospace;
+    font-size:1rem;
+    outline:none;
+    transition:border-color 0.2s;
+    caret-color:#A8FFEE;
+  }
+  .search-input::placeholder { color:#2A6060; font-size:0.85rem; }
+  .search-input:focus { border-color:rgba(106,236,236,0.7); background:rgba(255,255,255,0.11); }
+
+  .search-btn {
+    background:linear-gradient(135deg, var(--coral), #FF6B4A);
+    border:none;
+    border-radius:8px;
+    padding:9px 14px;
+    color:white;
+    font-weight:900;
+    font-size:0.82rem;
+    cursor:pointer;
+    box-shadow:0 3px 0 #C04A30, 0 4px 8px rgba(0,0,0,0.2);
+    transition:all 0.1s;
+    letter-spacing:0.5px;
+    white-space:nowrap;
+  }
+  .search-btn:hover { background:linear-gradient(135deg, #FF9A7A, #FF7050); }
+  .search-btn:active { transform:translateY(2px); box-shadow:0 1px 0 #C04A30; }
+
+  /* 목록 보기 버튼 */
+  .list-toggle-wrap {
+    margin-bottom:12px;
+    text-align:center;
+  }
+  .list-toggle-btn {
+    background:linear-gradient(135deg, #FFF8EE, #FFE8CC);
+    border:2px solid rgba(255,180,120,0.5);
+    border-radius:10px;
+    padding:8px 20px;
+    font-size:0.78rem;
+    font-weight:700;
+    color:var(--brown);
+    cursor:pointer;
+    box-shadow:0 3px 0 rgba(180,100,60,0.3), 0 4px 10px rgba(0,0,0,0.1);
+    transition:all 0.1s;
+    letter-spacing:0.5px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .list-toggle-btn:hover { background:linear-gradient(135deg, #FFFFFF, #FFF0D8); }
+  .list-toggle-btn:active { transform:translateY(2px); box-shadow:0 1px 0 rgba(180,100,60,0.3); }
+  .toggle-arrow { transition:transform 0.25s; display:inline-block; }
+  .toggle-arrow.open { transform:rotate(180deg); }
+
+  /* 동사 목록 드롭다운 */
+  .verb-list-panel {
+    background:#1C3A3A;
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:12px;
+    display:none;
+    animation:fadeDown 0.25s ease;
+    max-height:220px;
+    overflow-y:auto;
+  }
+  .verb-list-panel.show { display:block; }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+
+  .verb-list-panel::-webkit-scrollbar { width:4px; }
+  .verb-list-panel::-webkit-scrollbar-track { background:rgba(255,255,255,0.05); border-radius:4px; }
+  .verb-list-panel::-webkit-scrollbar-thumb { background:var(--mint-light); border-radius:4px; }
+
+  .verb-grid {
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:6px;
+  }
+  .verb-chip {
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(106,236,236,0.2);
+    border-radius:6px;
+    padding:5px 4px;
+    text-align:center;
+    cursor:pointer;
+    font-family:'DM Mono', monospace;
+    font-size:0.7rem;
+    color:#A8FFEE;
+    transition:all 0.12s;
+    font-weight:500;
+  }
+  .verb-chip:hover {
+    background:rgba(168,255,238,0.15);
+    border-color:rgba(106,236,236,0.5);
+    color:#DFFFFF;
+    transform:translateY(-1px);
+  }
+
+  /* 결과 트레이 */
+  .result-tray {
+    background:linear-gradient(145deg, var(--cream), var(--warm));
+    border-radius:16px;
+    border:2px dashed rgba(255,160,100,0.4);
+    padding:16px 14px;
+    min-height:160px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.07);
+    position:relative;
+    overflow:hidden;
+  }
+  .tray-label {
+    font-size:0.6rem;
+    color:var(--coral);
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-weight:700;
+    margin-bottom:12px;
+    font-family:'DM Mono', monospace;
+  }
+
+  /* 결과 없을 때 */
+  .result-empty {
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    padding:20px 0; gap:8px;
+    text-align:center;
+  }
+  .result-empty .empty-icon { font-size:2.2rem; }
+  .result-empty p { font-size:0.8rem; color:#C8B090; line-height:1.6; }
+
+  /* 결과 카드 */
+  .result-card { display:none; animation:slideUp 0.3s ease; }
+  .result-card.show { display:block; }
+  @keyframes slideUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+  .verb-title-row {
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:14px;
+    padding-bottom:10px;
+    border-bottom:2px solid rgba(255,160,100,0.2);
+  }
+  .verb-main {
+    font-family:'DM Mono', monospace;
+    font-size:1.7rem;
+    font-weight:500;
+    color:var(--mint-darker);
+  }
+  .verb-meaning-main {
+    font-size:0.78rem;
+    color:var(--text-mid);
+    font-weight:500;
+  }
+
+  /* 형식 카드들 */
+  .pattern-list { display:flex; flex-direction:column; gap:10px; }
+
+  .pattern-card {
+    background:white;
+    border-radius:10px;
+    padding:10px 12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+    border-left:4px solid var(--mint-light);
+    position:relative;
+  }
+  .pattern-card:nth-child(2n) { border-left-color:var(--coral-light); }
+  .pattern-card:nth-child(3n) { border-left-color:var(--yellow); }
+
+  .pattern-top {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:6px;
+    flex-wrap:wrap;
+  }
+  .form-badge {
+    background:var(--mint-pale);
+    color:var(--mint-darker);
+    font-size:0.6rem;
+    font-weight:900;
+    padding:2px 8px;
+    border-radius:20px;
+    letter-spacing:0.5px;
+    white-space:nowrap;
+  }
+  .pattern-card:nth-child(2n) .form-badge {
+    background:#FFF0E8;
+    color:#C05030;
+  }
+  .pattern-card:nth-child(3n) .form-badge {
+    background:#FFF8DC;
+    color:#8A6000;
+  }
+  .pattern-structure {
+    font-family:'DM Mono', monospace;
+    font-size:0.72rem;
+    color:var(--text-mid);
+    font-weight:500;
+  }
+  .pattern-meaning {
+    font-size:0.82rem;
+    font-weight:700;
+    color:var(--text-dark);
+    margin-bottom:5px;
+  }
+  .pattern-example {
+    font-size:0.78rem;
+    color:var(--text-mid);
+    line-height:1.55;
+    font-style:italic;
+  }
+  .pattern-example-ko {
+    font-size:0.72rem;
+    color:#9AACAC;
+    margin-top:2px;
+    font-style:normal;
+  }
+
+  /* 하단 */
+  .machine-bottom {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-top:8px;
+  }
+  .brand-slot {
+    background:#1A3A3A;
+    border-radius:6px;
+    padding:5px 12px;
+    font-size:0.72rem;
+    color:#1E90FF;
+    letter-spacing:2px;
+    font-weight:900;
+    font-family:'DM Mono', monospace;
+    text-shadow:0 0 8px rgba(30,144,255,0.6);
+  }
+  .deco-lights { display:flex; gap:6px; }
+  .deco-light {
+    width:10px; height:10px;
+    border-radius:50%;
+    animation:blink 2s ease-in-out infinite;
+  }
+  .deco-light:nth-child(1){background:var(--coral);animation-delay:0s}
+  .deco-light:nth-child(2){background:var(--yellow);animation-delay:0.5s}
+  .deco-light:nth-child(3){background:#7DFFF0;animation-delay:1s}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.25}}
+
+  .deco-top { position:absolute; top:-8px; right:18px; font-size:1.5rem; animation:bounce 2.8s ease-in-out infinite; }
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+  /* 검색 없음 메시지 */
+  .no-result {
+    text-align:center;
+    padding:20px 0;
+    font-size:0.85rem;
+    color:#C8B090;
+  }
+  .no-result strong { color:var(--coral); font-family:'DM Mono', monospace; }
+</style>
+</head>
+<body>
+
+<div class="title-area">
+  <h1>🌿 동사 자판기</h1>
+  <p class="subtitle">동사를 검색하면 형식별 구조와 예문이 뚝딱!</p>
+</div>
+
+<div class="vending-machine">
+
+  <div class="machine-top">
+    <span class="char-left">🌸</span>
+    <span class="machine-logo">VERB VENDING</span>
+    <span class="char-right">🍀</span>
+  </div>
+
+  <!-- 검색 패널 -->
+  <div class="search-panel">
+    <div class="search-label">🔍 동사 검색 / SEARCH VERB</div>
+    <div class="search-row">
+      <input type="text" class="search-input" id="searchInput"
+        placeholder="예: allow, give, make ..."
+        oninput="onSearchInput(this.value)"
+        onkeydown="if(event.key==='Enter') doSearch()">
+      <button class="search-btn" onclick="doSearch()">검색</button>
+    </div>
+  </div>
+
+  <!-- 목록 보기 버튼 -->
+  <div class="list-toggle-wrap">
+    <button class="list-toggle-btn" onclick="toggleList()" id="listToggleBtn">
+      📋 동사 목록 보기 <span class="toggle-arrow" id="toggleArrow">▼</span>
+    </button>
+  </div>
+
+  <!-- 동사 목록 드롭다운 -->
+  <div class="verb-list-panel" id="verbListPanel">
+    <div class="verb-grid" id="verbGrid"></div>
+  </div>
+
+  <!-- 결과 트레이 -->
+  <div class="result-tray" id="resultTray">
+    <div class="tray-label">📦 결과 트레이</div>
+    <div class="result-empty" id="resultEmpty">
+      <span class="empty-icon">🔤</span>
+      <p>동사를 검색하거나<br>목록에서 선택해보세요!</p>
+    </div>
+    <div class="result-card" id="resultCard"></div>
+  </div>
+
+  <div class="machine-bottom">
+    <div class="brand-slot">SEJIN ENGLISH</div>
+    <div class="deco-lights">
+      <div class="deco-light"></div>
+      <div class="deco-light"></div>
+      <div class="deco-light"></div>
+    </div>
+  </div>
+
+  <div class="deco-top">✨</div>
+</div>
+
+<script>
+const verbs = {
+  allow: {
+    meaning: '허용하다, 가능하게 하다',
+    patterns: [
+      { form:'1형식 변형', structure:'allow + for + 명사', meaning:'~을 고려하다, 감안하다', example:'We should allow for delays.', ko:'지연을 감안해야 해요.' },
+      { form:'4형식', structure:'allow + 목(사람) + 목(사물)', meaning:'~에게 ~을 허락하다', example:'They allowed him extra time.', ko:'그들은 그에게 추가 시간을 줬어요.' },
+      { form:'5형식', structure:'allow + 목 + to do', meaning:'~가 …하도록 허용하다', example:'She allowed me to leave early.', ko:'그녀는 내가 일찍 떠나도록 허락했어요.' },
+    ]
+  },
+  give: {
+    meaning: '주다, 제공하다',
+    patterns: [
+      { form:'3형식', structure:'give + 목(사물)', meaning:'~을 주다', example:'She gave a speech.', ko:'그녀는 연설을 했어요.' },
+      { form:'4형식', structure:'give + 목(사람) + 목(사물)', meaning:'~에게 ~을 주다', example:'He gave me a gift.', ko:'그가 나에게 선물을 줬어요.' },
+      { form:'5형식', structure:'give + 목 + 형용사', meaning:'~을 …한 상태로 만들다', example:'The news gave her hope.', ko:'그 소식이 그녀에게 희망을 줬어요.' },
+    ]
+  },
+  make: {
+    meaning: '만들다, ~하게 하다',
+    patterns: [
+      { form:'3형식', structure:'make + 목(사물)', meaning:'~을 만들다', example:'She made a cake.', ko:'그녀는 케이크를 만들었어요.' },
+      { form:'5형식', structure:'make + 목 + 형용사', meaning:'~을 …하게 만들다', example:'The music made her happy.', ko:'음악이 그녀를 행복하게 만들었어요.' },
+      { form:'5형식', structure:'make + 목 + 동사원형', meaning:'~가 …하도록 만들다 (강제)', example:'He made me wait an hour.', ko:'그는 나를 한 시간 기다리게 했어요.' },
+    ]
+  },
+  get: {
+    meaning: '가다/도달하다, ~이 되다, 얻다, 시키다',
+    patterns: [
+      { form:'1형식', structure:'get + to + 장소/부사', meaning:'~에 가다, 도달하다', example:'How do I get to the station?', ko:'역에 어떻게 가나요?' },
+      { form:'2형식', structure:'get + 형용사(보어)', meaning:'(어떤 상태)가 되다', example:'She got angry suddenly.', ko:'그녀는 갑자기 화가 났어요.' },
+      { form:'2형식', structure:'get + -ing', meaning:'~하기 시작하다, 계속 ~하다', example:'Let\'s get going before it rains.', ko:'비 오기 전에 출발하자요.' },
+      { form:'2형식', structure:'get + p.p. (done)', meaning:'~된 상태가 되다 (수동/완료)', example:'I got dressed in five minutes.', ko:'나는 5분 만에 옷을 입었어요.' },
+      { form:'3형식', structure:'get + 목(사물)', meaning:'~을 얻다, 가져오다', example:'I got a new job.', ko:'나는 새 직장을 얻었어요.' },
+      { form:'5형식', structure:'get + 목 + to do', meaning:'~가 …하도록 설득하다', example:'She got him to apologize.', ko:'그녀는 그가 사과하도록 했어요.' },
+      { form:'5형식', structure:'get + 목 + p.p.', meaning:'~을 …된 상태로 만들다 (사역)', example:'I got my hair cut.', ko:'나는 머리를 잘랐어요.' },
+    ]
+  },
+  have: {
+    meaning: '가지다, 경험하다, 시키다',
+    patterns: [
+      { form:'3형식', structure:'have + 목(사물/경험)', meaning:'~을 갖다, 경험하다', example:'We had a great time.', ko:'우리는 정말 좋은 시간을 보냈어요.' },
+      { form:'5형식', structure:'have + 목 + 동사원형', meaning:'~가 …하도록 시키다', example:'I had him fix the bike.', ko:'나는 그에게 자전거를 고치도록 했어요.' },
+      { form:'5형식', structure:'have + 목 + p.p.', meaning:'~이 …되도록 하다', example:'She had her car repaired.', ko:'그녀는 차를 수리하게 했어요.' },
+    ]
+  },
+  let: {
+    meaning: '허락하다, ~하게 두다',
+    patterns: [
+      { form:'5형식', structure:'let + 목 + 동사원형', meaning:'~가 …하도록 내버려 두다', example:'Let me know your answer.', ko:'답을 알려주세요.' },
+      { form:'5형식', structure:'let + 목 + in/out', meaning:'~을 들이다/내보내다', example:'She let the dog out.', ko:'그녀는 개를 내보냈어요.' },
+    ]
+  },
+  help: {
+    meaning: '돕다',
+    patterns: [
+      { form:'5형식', structure:'help + 목 + (to) do', meaning:'~가 …하도록 돕다', example:'He helped me (to) move.', ko:'그는 내가 이사하는 걸 도와줬어요.' },
+      { form:'3형식', structure:'help + with + 명사', meaning:'~에 도움을 주다', example:'She helps with the cooking.', ko:'그녀는 요리를 도와요.' },
+      { form:'3형식', structure:'help + 목(사람)', meaning:'~을 돕다', example:'Can you help me?', ko:'나를 도와줄 수 있나요?' },
+    ]
+  },
+  keep: {
+    meaning: '유지하다, 계속하다, 막다',
+    patterns: [
+      { form:'3형식', structure:'keep + 목(사물)', meaning:'~을 유지하다, 보관하다', example:'Keep the receipt.', ko:'영수증을 보관하세요.' },
+      { form:'5형식', structure:'keep + 목 + 형용사', meaning:'~을 …한 상태로 유지하다', example:'Keep the door open.', ko:'문을 열어 두세요.' },
+      { form:'5형식', structure:'keep + 목 + from + -ing', meaning:'~가 …하지 못하게 막다', example:'He kept me from leaving.', ko:'그는 내가 떠나지 못하게 했어요.' },
+    ]
+  },
+  find: {
+    meaning: '발견하다, 알게 되다',
+    patterns: [
+      { form:'3형식', structure:'find + 목(사물)', meaning:'~을 찾다, 발견하다', example:'She found her keys.', ko:'그녀는 열쇠를 찾았어요.' },
+      { form:'5형식', structure:'find + 목 + 형용사', meaning:'~이 …하다고 느끼다', example:'I find this interesting.', ko:'나는 이것이 흥미롭다고 느껴요.' },
+      { form:'5형식', structure:'find + 목 + to be + 명사/형용사', meaning:'~이 …임을 알게 되다', example:'We found him to be honest.', ko:'우리는 그가 정직하다는 걸 알았어요.' },
+    ]
+  },
+  see: {
+    meaning: '보다, 이해하다, 확인하다',
+    patterns: [
+      { form:'3형식', structure:'see + 목(사물/사람)', meaning:'~을 보다', example:'I saw a rainbow.', ko:'나는 무지개를 봤어요.' },
+      { form:'5형식', structure:'see + 목 + 동사원형', meaning:'~가 …하는 것을 (목격)보다', example:'I saw her cross the street.', ko:'나는 그녀가 길을 건너는 걸 봤어요.' },
+      { form:'5형식', structure:'see + 목 + -ing', meaning:'~가 …하고 있는 것을 보다', example:'He saw her running away.', ko:'그는 그녀가 도망가는 걸 봤어요.' },
+    ]
+  },
+  watch: {
+    meaning: '보다, 지켜보다',
+    patterns: [
+      { form:'3형식', structure:'watch + 목(사물)', meaning:'~을 보다, 시청하다', example:'We watched a movie.', ko:'우리는 영화를 봤어요.' },
+      { form:'5형식', structure:'watch + 목 + 동사원형', meaning:'~가 …하는 것을 지켜보다', example:'She watched him leave.', ko:'그녀는 그가 떠나는 걸 지켜봤어요.' },
+      { form:'5형식', structure:'watch + 목 + -ing', meaning:'~가 …하고 있는 걸 보다', example:'I watched kids playing.', ko:'나는 아이들이 노는 걸 봤어요.' },
+    ]
+  },
+  hear: {
+    meaning: '듣다, 들리다',
+    patterns: [
+      { form:'3형식', structure:'hear + 목(사물/소식)', meaning:'~을 듣다', example:'I heard the news.', ko:'나는 그 소식을 들었어요.' },
+      { form:'5형식', structure:'hear + 목 + 동사원형', meaning:'~가 …하는 것을 듣다', example:'She heard him say that.', ko:'그녀는 그가 그 말을 하는 걸 들었어요.' },
+      { form:'5형식', structure:'hear + 목 + -ing', meaning:'~가 …하는 소리를 듣다', example:'I heard birds singing.', ko:'나는 새들이 노래하는 소리를 들었어요.' },
+    ]
+  },
+  feel: {
+    meaning: '느끼다, 촉감을 느끼다',
+    patterns: [
+      { form:'2형식', structure:'feel + 형용사', meaning:'~하게 느끼다', example:'I feel tired today.', ko:'오늘 피곤함이 느껴져요.' },
+      { form:'3형식', structure:'feel + 목(감정/감각)', meaning:'~을 느끼다', example:'She felt the cold wind.', ko:'그녀는 차가운 바람을 느꼈어요.' },
+      { form:'5형식', structure:'feel + 목 + -ing', meaning:'~가 …하는 것이 느껴지다', example:'I felt my heart beating.', ko:'심장이 뛰는 게 느껴졌어요.' },
+    ]
+  },
+  ask: {
+    meaning: '묻다, 부탁하다, 요청하다',
+    patterns: [
+      { form:'3형식', structure:'ask + 목(사람/질문)', meaning:'~에게 묻다', example:'She asked a question.', ko:'그녀는 질문을 했어요.' },
+      { form:'4형식', structure:'ask + 목(사람) + 목(것)', meaning:'~에게 ~을 부탁하다', example:'He asked me a favor.', ko:'그는 나에게 부탁을 했어요.' },
+      { form:'5형식', structure:'ask + 목 + to do', meaning:'~에게 …하도록 요청하다', example:'I asked him to call me.', ko:'나는 그에게 전화해 달라고 했어요.' },
+    ]
+  },
+  tell: {
+    meaning: '말하다, 알리다, 시키다',
+    patterns: [
+      { form:'4형식', structure:'tell + 목(사람) + 목(내용)', meaning:'~에게 ~을 말하다', example:'Tell me the truth.', ko:'나에게 진실을 말해줘요.' },
+      { form:'5형식', structure:'tell + 목 + to do', meaning:'~에게 …하라고 하다', example:'She told me to hurry.', ko:'그녀는 나에게 서두르라고 했어요.' },
+    ]
+  },
+  show: {
+    meaning: '보여주다, 안내하다',
+    patterns: [
+      { form:'3형식', structure:'show + 목(사물)', meaning:'~을 보여주다', example:'Show your ID, please.', ko:'신분증을 보여주세요.' },
+      { form:'4형식', structure:'show + 목(사람) + 목(사물)', meaning:'~에게 ~을 보여주다', example:'She showed me the photo.', ko:'그녀는 나에게 사진을 보여줬어요.' },
+      { form:'5형식', structure:'show + 목 + how to do', meaning:'~에게 …하는 법을 보여주다', example:'He showed me how to cook.', ko:'그는 요리하는 법을 가르쳐줬어요.' },
+    ]
+  },
+  teach: {
+    meaning: '가르치다',
+    patterns: [
+      { form:'3형식', structure:'teach + 목(과목/내용)', meaning:'~을 가르치다', example:'She teaches English.', ko:'그녀는 영어를 가르쳐요.' },
+      { form:'4형식', structure:'teach + 목(사람) + 목(내용)', meaning:'~에게 ~을 가르치다', example:'He taught me grammar.', ko:'그는 나에게 문법을 가르쳤어요.' },
+      { form:'5형식', structure:'teach + 목 + to do', meaning:'~에게 …하는 법을 가르치다', example:'She taught me to swim.', ko:'그녀는 나에게 수영을 가르쳤어요.' },
+    ]
+  },
+  send: {
+    meaning: '보내다, 전송하다',
+    patterns: [
+      { form:'3형식', structure:'send + 목(사물)', meaning:'~을 보내다', example:'I sent an email.', ko:'나는 이메일을 보냈어요.' },
+      { form:'4형식', structure:'send + 목(사람) + 목(사물)', meaning:'~에게 ~을 보내다', example:'She sent me flowers.', ko:'그녀는 나에게 꽃을 보내줬어요.' },
+      { form:'5형식', structure:'send + 목 + 형용사', meaning:'~을 …한 상태가 되게 하다', example:'The news sent her crazy.', ko:'그 소식은 그녀를 미치게 만들었어요.' },
+    ]
+  },
+  want: {
+    meaning: '원하다, 바라다',
+    patterns: [
+      { form:'3형식', structure:'want + 목(사물)', meaning:'~을 원하다', example:'I want some coffee.', ko:'커피가 마시고 싶어요.' },
+      { form:'5형식', structure:'want + 목 + to do', meaning:'~가 …하길 원하다', example:'I want you to stay.', ko:'나는 네가 머물길 원해요.' },
+    ]
+  },
+  need: {
+    meaning: '필요하다',
+    patterns: [
+      { form:'3형식', structure:'need + 목(사물)', meaning:'~이 필요하다', example:'I need more time.', ko:'나는 시간이 더 필요해요.' },
+      { form:'5형식', structure:'need + 목 + to do', meaning:'~가 …해야 할 필요가 있다', example:'I need you to listen.', ko:'당신이 들어주셔야 해요.' },
+      { form:'5형식', structure:'need + 목 + p.p.', meaning:'~이 …되어야 하다', example:'This needs to be fixed.', ko:'이건 수정되어야 해요.' },
+    ]
+  },
+  expect: {
+    meaning: '기대하다, 예상하다',
+    patterns: [
+      { form:'3형식', structure:'expect + 목(사물/상황)', meaning:'~을 예상하다', example:'I expected rain today.', ko:'오늘 비를 예상했어요.' },
+      { form:'5형식', structure:'expect + 목 + to do', meaning:'~가 …하길 기대하다', example:'She expects me to help.', ko:'그녀는 내가 도와주길 기대해요.' },
+    ]
+  },
+  encourage: {
+    meaning: '격려하다, 권장하다',
+    patterns: [
+      { form:'3형식', structure:'encourage + 목(사람)', meaning:'~을 격려하다', example:'She encouraged the team.', ko:'그녀는 팀을 격려했어요.' },
+      { form:'5형식', structure:'encourage + 목 + to do', meaning:'~가 …하도록 격려하다', example:'He encouraged me to try.', ko:'그는 나에게 도전해보라고 격려했어요.' },
+    ]
+  },
+  force: {
+    meaning: '강요하다, 억지로 ~시키다',
+    patterns: [
+      { form:'3형식', structure:'force + 목(상황)', meaning:'강제로 ~하다', example:'He forced an entry.', ko:'그는 강제로 들어왔어요.' },
+      { form:'5형식', structure:'force + 목 + to do', meaning:'~가 …하도록 강요하다', example:'They forced him to resign.', ko:'그들은 그를 사임하도록 강요했어요.' },
+    ]
+  },
+  cause: {
+    meaning: '야기하다, 초래하다',
+    patterns: [
+      { form:'3형식', structure:'cause + 목(사물/상황)', meaning:'~을 야기하다', example:'The storm caused damage.', ko:'폭풍이 피해를 입혔어요.' },
+      { form:'5형식', structure:'cause + 목 + to do', meaning:'~가 …하게 만들다', example:'Fear caused him to freeze.', ko:'두려움이 그를 굳어버리게 했어요.' },
+    ]
+  },
+  enable: {
+    meaning: '가능하게 하다',
+    patterns: [
+      { form:'3형식', structure:'enable + 목(사물/기능)', meaning:'~을 가능하게 하다', example:'The app enables sharing.', ko:'그 앱은 공유를 가능하게 해요.' },
+      { form:'5형식', structure:'enable + 목 + to do', meaning:'~가 …할 수 있게 해주다', example:'This enables us to grow.', ko:'이것이 우리가 성장할 수 있게 해줘요.' },
+    ]
+  },
+  prevent: {
+    meaning: '막다, 예방하다',
+    patterns: [
+      { form:'3형식', structure:'prevent + 목(사건/사고)', meaning:'~을 예방하다', example:'Wash hands to prevent illness.', ko:'병을 예방하기 위해 손을 씻어요.' },
+      { form:'5형식', structure:'prevent + 목 + from + -ing', meaning:'~가 …하는 것을 막다', example:'He prevented me from leaving.', ko:'그는 내가 떠나는 것을 막았어요.' },
+    ]
+  },
+  stop: {
+    meaning: '멈추다, 막다',
+    patterns: [
+      { form:'1형식', structure:'stop + (부사)', meaning:'멈추다', example:'The car stopped suddenly.', ko:'차가 갑자기 멈췄어요.' },
+      { form:'3형식', structure:'stop + -ing', meaning:'~하는 것을 그만두다', example:'He stopped smoking.', ko:'그는 담배를 끊었어요.' },
+      { form:'5형식', structure:'stop + 목 + from + -ing', meaning:'~가 …하지 못하게 막다', example:'I stopped him from going.', ko:'나는 그가 가지 못하게 막았어요.' },
+    ]
+  },
+  consider: {
+    meaning: '고려하다, ~라고 여기다',
+    patterns: [
+      { form:'3형식', structure:'consider + 목/-ing', meaning:'~을 고려하다', example:'Consider taking a break.', ko:'휴식을 취하는 걸 고려해봐요.' },
+      { form:'5형식', structure:'consider + 목 + 형용사/명사', meaning:'~을 …라고 여기다', example:'I consider him a friend.', ko:'나는 그를 친구라고 여겨요.' },
+      { form:'5형식', structure:'consider + 목 + to be', meaning:'~이 …라고 간주하다', example:'She is considered to be smart.', ko:'그녀는 똑똑하다고 여겨져요.' },
+    ]
+  },
+  leave: {
+    meaning: '떠나다, 남겨두다',
+    patterns: [
+      { form:'1형식', structure:'leave + (전치사 + 장소)', meaning:'~을 떠나다', example:'She left for London.', ko:'그녀는 런던으로 떠났어요.' },
+      { form:'3형식', structure:'leave + 목(사물)', meaning:'~을 남겨두다', example:'He left a message.', ko:'그는 메시지를 남겼어요.' },
+      { form:'5형식', structure:'leave + 목 + 형용사', meaning:'~을 …한 상태로 두다', example:'Leave the door open.', ko:'문을 열어 두세요.' },
+    ]
+  },
+  call: {
+    meaning: '부르다, 전화하다, 여기다',
+    patterns: [
+      { form:'3형식', structure:'call + 목(사람)', meaning:'~에게 전화하다, ~을 부르다', example:'I called her yesterday.', ko:'나는 어제 그녀에게 전화했어요.' },
+      { form:'5형식', structure:'call + 목 + 명사', meaning:'~을 …라고 부르다', example:'They called him a hero.', ko:'그들은 그를 영웅이라고 불렀어요.' },
+    ]
+  },
+  name: {
+    meaning: '이름 짓다, 지명하다',
+    patterns: [
+      { form:'3형식', structure:'name + 목(사물)', meaning:'~의 이름을 말하다', example:'Name three capitals.', ko:'수도 세 개를 말해보세요.' },
+      { form:'5형식', structure:'name + 목 + 명사', meaning:'~을 …라고 이름 짓다', example:'They named the baby Tom.', ko:'그들은 아기를 Tom이라고 이름 지었어요.' },
+    ]
+  },
+  elect: {
+    meaning: '선출하다',
+    patterns: [
+      { form:'3형식', structure:'elect + 목(사람)', meaning:'~을 선출하다', example:'We elected a new leader.', ko:'우리는 새 리더를 선출했어요.' },
+      { form:'5형식', structure:'elect + 목 + 명사', meaning:'~을 …로 선출하다', example:'They elected her president.', ko:'그들은 그녀를 대통령으로 선출했어요.' },
+    ]
+  },
+  appoint: {
+    meaning: '임명하다, 지정하다',
+    patterns: [
+      { form:'3형식', structure:'appoint + 목(사람)', meaning:'~을 임명하다', example:'He appointed a manager.', ko:'그는 매니저를 임명했어요.' },
+      { form:'5형식', structure:'appoint + 목 + 명사', meaning:'~을 …으로 임명하다', example:'She was appointed director.', ko:'그녀는 이사로 임명됐어요.' },
+    ]
+  },
+  order: {
+    meaning: '명령하다, 주문하다',
+    patterns: [
+      { form:'3형식', structure:'order + 목(음식/물건)', meaning:'~을 주문하다', example:'I ordered a coffee.', ko:'나는 커피를 주문했어요.' },
+      { form:'5형식', structure:'order + 목 + to do', meaning:'~에게 …하라고 명령하다', example:'He ordered them to stop.', ko:'그는 그들에게 멈추라고 명령했어요.' },
+    ]
+  },
+  remind: {
+    meaning: '상기시키다, 생각나게 하다',
+    patterns: [
+      { form:'3형식', structure:'remind + 목(사람)', meaning:'~에게 상기시키다', example:'She reminded me again.', ko:'그녀는 나에게 다시 상기시켰어요.' },
+      { form:'4형식', structure:'remind + 목(사람) + of + 명사', meaning:'~에게 ~을 상기시키다', example:'This reminds me of home.', ko:'이것이 고향이 생각나게 해요.' },
+      { form:'5형식', structure:'remind + 목 + to do', meaning:'~에게 …하도록 상기시키다', example:'Remind me to call her.', ko:'그녀에게 전화하라고 상기시켜줘요.' },
+    ]
+  },
+  warn: {
+    meaning: '경고하다',
+    patterns: [
+      { form:'3형식', structure:'warn + 목(사람)', meaning:'~에게 경고하다', example:'She warned me.', ko:'그녀는 나에게 경고했어요.' },
+      { form:'5형식', structure:'warn + 목 + not to do', meaning:'~에게 …하지 말라고 경고하다', example:'He warned me not to go.', ko:'그는 나에게 가지 말라고 경고했어요.' },
+    ]
+  },
+  advise: {
+    meaning: '조언하다, 권고하다',
+    patterns: [
+      { form:'3형식', structure:'advise + 목(사람/-ing)', meaning:'~을 권고하다', example:'She advised caution.', ko:'그녀는 신중함을 권고했어요.' },
+      { form:'5형식', structure:'advise + 목 + to do', meaning:'~에게 …하도록 조언하다', example:'He advised me to rest.', ko:'그는 나에게 쉬라고 조언했어요.' },
+    ]
+  },
+  persuade: {
+    meaning: '설득하다',
+    patterns: [
+      { form:'3형식', structure:'persuade + 목(사람)', meaning:'~을 설득하다', example:'She persuaded him easily.', ko:'그녀는 그를 쉽게 설득했어요.' },
+      { form:'5형식', structure:'persuade + 목 + to do', meaning:'~가 …하도록 설득하다', example:'I persuaded her to stay.', ko:'나는 그녀가 머물도록 설득했어요.' },
+    ]
+  },
+  invite: {
+    meaning: '초대하다',
+    patterns: [
+      { form:'3형식', structure:'invite + 목(사람)', meaning:'~을 초대하다', example:'She invited all her friends.', ko:'그녀는 친구들을 모두 초대했어요.' },
+      { form:'5형식', structure:'invite + 목 + to do', meaning:'~에게 …하도록 초대하다', example:'They invited us to join.', ko:'그들은 우리를 참여하도록 초대했어요.' },
+    ]
+  },
+  promise: {
+    meaning: '약속하다',
+    patterns: [
+      { form:'3형식', structure:'promise + 목(사물)', meaning:'~을 약속하다', example:'He promised a reward.', ko:'그는 보상을 약속했어요.' },
+      { form:'4형식', structure:'promise + 목(사람) + 목(사물)', meaning:'~에게 ~을 약속하다', example:'She promised me help.', ko:'그녀는 나에게 도움을 약속했어요.' },
+      { form:'5형식', structure:'promise + to do', meaning:'…하겠다고 약속하다', example:'He promised to return.', ko:'그는 돌아오겠다고 약속했어요.' },
+    ]
+  },
+  offer: {
+    meaning: '제안하다, 제공하다',
+    patterns: [
+      { form:'3형식', structure:'offer + 목(사물)', meaning:'~을 제공하다', example:'She offered some tea.', ko:'그녀는 차를 제공했어요.' },
+      { form:'4형식', structure:'offer + 목(사람) + 목(사물)', meaning:'~에게 ~을 제안하다', example:'He offered me a seat.', ko:'그는 나에게 자리를 권했어요.' },
+      { form:'5형식', structure:'offer + to do', meaning:'…하겠다고 자청하다', example:'She offered to help.', ko:'그녀는 돕겠다고 자청했어요.' },
+    ]
+  },
+  refuse: {
+    meaning: '거절하다',
+    patterns: [
+      { form:'3형식', structure:'refuse + 목(사물/-ing)', meaning:'~을 거절하다', example:'She refused his offer.', ko:'그녀는 그의 제안을 거절했어요.' },
+      { form:'5형식', structure:'refuse + to do', meaning:'…하기를 거부하다', example:'He refused to apologize.', ko:'그는 사과하기를 거부했어요.' },
+    ]
+  },
+  decide: {
+    meaning: '결정하다',
+    patterns: [
+      { form:'3형식', structure:'decide + 목(사물)', meaning:'~을 결정하다', example:'She decided the date.', ko:'그녀가 날짜를 결정했어요.' },
+      { form:'5형식', structure:'decide + to do', meaning:'…하기로 결정하다', example:'I decided to quit.', ko:'나는 그만두기로 결정했어요.' },
+    ]
+  },
+  agree: {
+    meaning: '동의하다, 합의하다',
+    patterns: [
+      { form:'1형식', structure:'agree + with/on/about + 명사', meaning:'~에 동의하다', example:'I agree with you.', ko:'나는 당신에게 동의해요.' },
+      { form:'5형식', structure:'agree + to do', meaning:'…하기로 동의하다', example:'They agreed to meet.', ko:'그들은 만나기로 합의했어요.' },
+    ]
+  },
+  fail: {
+    meaning: '실패하다, ~하지 못하다',
+    patterns: [
+      { form:'1형식', structure:'fail + (전치사 + 명사)', meaning:'실패하다', example:'He failed in the test.', ko:'그는 시험에서 떨어졌어요.' },
+      { form:'5형식', structure:'fail + to do', meaning:'…하는 데 실패하다', example:'She failed to arrive on time.', ko:'그녀는 제 시간에 도착하지 못했어요.' },
+    ]
+  },
+  manage: {
+    meaning: '관리하다, 해내다',
+    patterns: [
+      { form:'3형식', structure:'manage + 목(사물/사람)', meaning:'~을 관리하다', example:'She manages a team.', ko:'그녀는 팀을 관리해요.' },
+      { form:'5형식', structure:'manage + to do', meaning:'어떻게든 …해내다', example:'He managed to escape.', ko:'그는 어떻게든 탈출해냈어요.' },
+    ]
+  },
+  tend: {
+    meaning: '~하는 경향이 있다, 돌보다',
+    patterns: [
+      { form:'5형식', structure:'tend + to do', meaning:'…하는 경향이 있다', example:'She tends to overthink.', ko:'그녀는 너무 많이 생각하는 경향이 있어요.' },
+      { form:'3형식', structure:'tend + to + 명사', meaning:'~을 돌보다', example:'He tends to his garden.', ko:'그는 정원을 가꿔요.' },
+    ]
+  },
+  seem: {
+    meaning: '~인 것처럼 보이다',
+    patterns: [
+      { form:'2형식', structure:'seem + 형용사', meaning:'~하게 보이다', example:'She seems tired today.', ko:'그녀는 오늘 피곤해 보여요.' },
+      { form:'5형식', structure:'seem + to do', meaning:'…하는 것처럼 보이다', example:'He seems to know her.', ko:'그는 그녀를 아는 것 같아요.' },
+    ]
+  },
+  appear: {
+    meaning: '나타나다, ~처럼 보이다',
+    patterns: [
+      { form:'1형식', structure:'appear + (장소/부사)', meaning:'나타나다', example:'A star appeared in the sky.', ko:'하늘에 별 하나가 나타났어요.' },
+      { form:'2형식', structure:'appear + 형용사', meaning:'~처럼 보이다', example:'He appears nervous.', ko:'그는 긴장해 보여요.' },
+      { form:'5형식', structure:'appear + to do', meaning:'…하는 것처럼 보이다', example:'She appears to enjoy it.', ko:'그녀는 그것을 즐기는 것 같아요.' },
+    ]
+  },
+  prove: {
+    meaning: '증명하다, 판명되다',
+    patterns: [
+      { form:'3형식', structure:'prove + 목(사실)', meaning:'~을 증명하다', example:'She proved her point.', ko:'그녀는 자신의 주장을 증명했어요.' },
+      { form:'5형식', structure:'prove + to be + 형용사/명사', meaning:'~이 …임이 밝혀지다', example:'It proved to be useful.', ko:'그것이 유용하다는 것이 밝혀졌어요.' },
+    ]
+  },
+  turn: {
+    meaning: '돌다, 변하다, 돌리다',
+    patterns: [
+      { form:'1형식', structure:'turn + (방향/부사)', meaning:'방향을 돌다', example:'Turn left at the corner.', ko:'모퉁이에서 좌회전하세요.' },
+      { form:'2형식', structure:'turn + 형용사', meaning:'~한 상태가 되다', example:'The leaves turned yellow.', ko:'잎이 노랗게 변했어요.' },
+      { form:'5형식', structure:'turn + 목 + into + 명사', meaning:'~을 …으로 바꾸다', example:'She turned the story into a film.', ko:'그녀는 그 이야기를 영화로 만들었어요.' },
+    ]
+  },
+  bring: {
+    meaning: '가져오다, 데려오다',
+    patterns: [
+      { form:'3형식', structure:'bring + 목(사물)', meaning:'~을 가져오다', example:'Bring your notebook.', ko:'노트북을 가져오세요.' },
+      { form:'4형식', structure:'bring + 목(사람) + 목(사물)', meaning:'~에게 ~을 가져오다', example:'He brought me coffee.', ko:'그는 나에게 커피를 가져다줬어요.' },
+      { form:'5형식', structure:'bring + 목 + 형용사', meaning:'~을 …한 상태로 만들다', example:'Bring the water to a boil.', ko:'물을 끓여요.' },
+    ]
+  },
+  put: {
+    meaning: '놓다, 두다, 표현하다',
+    patterns: [
+      { form:'3형식', structure:'put + 목 + 전치사 + 장소', meaning:'~을 …에 놓다', example:'Put the book on the desk.', ko:'책상에 책을 놓으세요.' },
+      { form:'5형식', structure:'put + 목 + 형용사', meaning:'~을 …한 상태에 놓다', example:'Don\'t put me in a difficult position.', ko:'나를 곤란한 상황에 두지 마세요.' },
+    ]
+  },
+  set: {
+    meaning: '놓다, 설정하다, 지게 하다',
+    patterns: [
+      { form:'3형식', structure:'set + 목(사물)', meaning:'~을 설정하다, 놓다', example:'Set the alarm for 7.', ko:'7시에 알람을 맞춰요.' },
+      { form:'5형식', structure:'set + 목 + 형용사', meaning:'~을 …한 상태로 만들다', example:'Set the prisoners free.', ko:'죄수들을 자유롭게 해줬어요.' },
+      { form:'5형식', structure:'set + 목 + -ing', meaning:'~가 …하기 시작하게 하다', example:'The news set people talking.', ko:'그 소식이 사람들을 떠들게 만들었어요.' },
+    ]
+  },
+  run: {
+    meaning: '달리다, 운영하다',
+    patterns: [
+      { form:'1형식', structure:'run + (부사/전치사구)', meaning:'달리다', example:'She runs every morning.', ko:'그녀는 매일 아침 달려요.' },
+      { form:'3형식', structure:'run + 목(사업/기관)', meaning:'~을 운영하다', example:'He runs a restaurant.', ko:'그는 식당을 운영해요.' },
+      { form:'5형식', structure:'run + 목 + 형용사', meaning:'~을 …한 상태로 유지하다', example:'Run the engine warm.', ko:'엔진을 워밍업하세요.' },
+    ]
+  },
+  take: {
+    meaning: '가져가다, 취하다, 데려가다',
+    patterns: [
+      { form:'3형식', structure:'take + 목(사물)', meaning:'~을 가져가다, 취하다', example:'Take an umbrella with you.', ko:'우산 챙겨가요.' },
+      { form:'4형식', structure:'take + 목(사람) + 목(장소)', meaning:'~을 …로 데려가다', example:'He took me to the station.', ko:'그는 나를 역으로 데려다줬어요.' },
+      { form:'5형식', structure:'take + 목 + for + 명사', meaning:'~을 …로 여기다', example:'Don\'t take me for a fool.', ko:'나를 바보 취급하지 마세요.' },
+    ]
+  },
+  refer: {
+    meaning: '언급하다, 참조하다, 보내다',
+    patterns: [
+      { form:'1형식 변형', structure:'refer + to + 명사', meaning:'~을 언급하다, 참조하다', example:'Please refer to the manual.', ko:'매뉴얼을 참조해주세요.' },
+      { form:'1형식 변형', structure:'refer + to + 목 + as + 명사', meaning:'~을 …라고 부르다/지칭하다', example:'We refer to it as the golden rule.', ko:'우리는 그것을 황금률이라고 불러요.' },
+      { form:'3형식', structure:'refer + 목(사람) + to + 명사', meaning:'~을 …에게 보내다/의뢰하다', example:'The doctor referred me to a specialist.', ko:'의사는 나를 전문의에게 보냈어요.' },
+    ]
+  },
+  inform: {
+    meaning: '알리다, 통보하다',
+    patterns: [
+      { form:'3형식', structure:'inform + 목(사람)', meaning:'~에게 알리다', example:'Please inform us immediately.', ko:'즉시 저희에게 알려주세요.' },
+      { form:'4형식', structure:'inform + 목(사람) + of/about + 명사', meaning:'~에게 ~을 알리다', example:'She informed me of the change.', ko:'그녀는 나에게 변경 사항을 알렸어요.' },
+      { form:'5형식', structure:'inform + 목 + that절', meaning:'~에게 …라고 알리다', example:'He informed us that he would resign.', ko:'그는 우리에게 사임할 것이라고 알렸어요.' },
+    ]
+  },
+  regard: {
+    meaning: '여기다, 간주하다, 생각하다',
+    patterns: [
+      { form:'3형식', structure:'regard + 목(사람/사물)', meaning:'~을 주시하다, 고려하다', example:'We regard this as important.', ko:'우리는 이것을 중요하게 여겨요.' },
+      { form:'5형식', structure:'regard + 목 + as + 명사/형용사', meaning:'~을 …로 여기다/간주하다', example:'He is regarded as a genius.', ko:'그는 천재로 여겨져요.' },
+    ]
+  },
+  think: {
+    meaning: '생각하다, 여기다',
+    patterns: [
+      { form:'1형식 변형', structure:'think + about/of + 명사', meaning:'~에 대해 생각하다', example:'I\'m thinking about the future.', ko:'나는 미래에 대해 생각하고 있어요.' },
+      { form:'3형식', structure:'think + that절', meaning:'~라고 생각하다', example:'I think that she is right.', ko:'나는 그녀가 옳다고 생각해요.' },
+      { form:'5형식', structure:'think + 목 + 형용사/명사', meaning:'~이 …하다고 여기다', example:'I think it necessary.', ko:'나는 그것이 필요하다고 생각해요.' },
+      { form:'5형식', structure:'think + 목 + to be + 형용사', meaning:'~이 …라고 생각하다', example:'I thought him to be honest.', ko:'나는 그가 정직하다고 생각했어요.' },
+    ]
+  },
+  believe: {
+    meaning: '믿다, ~라고 생각하다',
+    patterns: [
+      { form:'3형식', structure:'believe + 목(사람/사물)', meaning:'~을 믿다', example:'I believe you.', ko:'나는 당신을 믿어요.' },
+      { form:'3형식', structure:'believe + that절', meaning:'~라고 믿다/생각하다', example:'She believes that he is innocent.', ko:'그녀는 그가 무죄라고 믿어요.' },
+      { form:'5형식', structure:'believe + 목 + to be + 형용사/명사', meaning:'~이 …라고 믿다', example:'He believed her to be truthful.', ko:'그는 그녀가 정직하다고 믿었어요.' },
+    ]
+  },
+  assure: {
+    meaning: '확신시키다, 보장하다',
+    patterns: [
+      { form:'3형식', structure:'assure + 목(사람)', meaning:'~에게 확신을 주다', example:'I can assure you completely.', ko:'나는 당신에게 완전히 확신을 드릴 수 있어요.' },
+      { form:'4형식', structure:'assure + 목(사람) + of + 명사', meaning:'~에게 ~을 보장하다', example:'She assured me of her support.', ko:'그녀는 나에게 지지를 보장했어요.' },
+      { form:'5형식', structure:'assure + 목 + that절', meaning:'~에게 …라고 확신시키다', example:'He assured us that it was safe.', ko:'그는 우리에게 안전하다고 확신시켰어요.' },
+    ]
+  },
+  convince: {
+    meaning: '확신시키다, 납득시키다',
+    patterns: [
+      { form:'3형식', structure:'convince + 목(사람)', meaning:'~을 납득시키다', example:'Nothing could convince him.', ko:'아무것도 그를 납득시킬 수 없었어요.' },
+      { form:'5형식', structure:'convince + 목 + of + 명사', meaning:'~에게 ~을 확신시키다', example:'She convinced me of her honesty.', ko:'그녀는 자신의 정직함을 나에게 확신시켰어요.' },
+      { form:'5형식', structure:'convince + 목 + to do', meaning:'~가 …하도록 납득시키다', example:'I convinced her to stay longer.', ko:'나는 그녀가 더 오래 머물도록 설득했어요.' },
+      { form:'5형식', structure:'convince + 목 + that절', meaning:'~에게 …라고 확신시키다', example:'He convinced us that he was right.', ko:'그는 우리에게 자신이 옳다고 확신시켰어요.' },
+    ]
+  },
+  provide: {
+    meaning: '제공하다, 공급하다',
+    patterns: [
+      { form:'3형식', structure:'provide + 목(사물)', meaning:'~을 제공하다', example:'The school provides free meals.', ko:'학교는 무료 급식을 제공해요.' },
+      { form:'3형식', structure:'provide + for + 명사', meaning:'~을 부양하다, ~에 대비하다', example:'He provides for his family.', ko:'그는 가족을 부양해요.' },
+      { form:'4형식', structure:'provide + 목(사람) + with + 명사', meaning:'~에게 ~을 제공하다', example:'She provided us with all the details.', ko:'그녀는 우리에게 모든 세부 사항을 제공했어요.' },
+    ]
+  },
+};
+
+// 동사 목록 렌더링
+const verbGrid = document.getElementById('verbGrid');
+Object.keys(verbs).sort().forEach(verb => {
+  const chip = document.createElement('div');
+  chip.className = 'verb-chip';
+  chip.textContent = verb;
+  chip.onclick = () => {
+    document.getElementById('searchInput').value = verb;
+    renderVerb(verb);
+    // 목록 닫기
+    document.getElementById('verbListPanel').classList.remove('show');
+    document.getElementById('toggleArrow').classList.remove('open');
+  };
+  verbGrid.appendChild(chip);
+});
+
+function toggleList() {
+  const panel = document.getElementById('verbListPanel');
+  const arrow = document.getElementById('toggleArrow');
+  panel.classList.toggle('show');
+  arrow.classList.toggle('open');
+}
+
+function onSearchInput(val) {
+  if (val.trim() === '') {
+    document.getElementById('resultCard').classList.remove('show');
+    document.getElementById('resultEmpty').style.display = '';
+  }
+}
+
+function doSearch() {
+  const val = document.getElementById('searchInput').value.trim().toLowerCase();
+  if (!val) return;
+  renderVerb(val);
+}
+
+function renderVerb(verb) {
+  const d = verbs[verb];
+  const empty = document.getElementById('resultEmpty');
+  const card = document.getElementById('resultCard');
+
+  if (!d) {
+    empty.style.display = '';
+    empty.innerHTML = `<span class="empty-icon">🔍</span><p><strong style="color:var(--coral);font-family:'DM Mono',monospace">${verb}</strong> 은(는) 아직 없어요.<br>다른 동사를 검색해보세요!</p>`;
+    card.classList.remove('show');
+    return;
+  }
+
+  empty.style.display = 'none';
+
+  const patternsHTML = d.patterns.map(p => `
+    <div class="pattern-card">
+      <div class="pattern-top">
+        <span class="form-badge">${p.form}</span>
+        <span class="pattern-structure">${p.structure}</span>
+      </div>
+      <div class="pattern-meaning">${p.meaning}</div>
+      <div class="pattern-example">${p.example}</div>
+      <div class="pattern-example-ko">${p.ko}</div>
+    </div>
+  `).join('');
+
+  card.innerHTML = `
+    <div class="verb-title-row">
+      <span class="verb-main">${verb}</span>
+      <span class="verb-meaning-main">${d.meaning}</span>
+    </div>
+    <div class="pattern-list">${patternsHTML}</div>
+  `;
+
+  card.classList.remove('show');
+  void card.offsetWidth;
+  card.classList.add('show');
+}
+
+// Enter 키
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doSearch();
+});
+</script>
+</body>
+</html>
