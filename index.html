@@ -990,7 +990,21 @@ const verbs = {
       { form:'3형식', structure:'learn + that절', meaning:'~라는 것을 알게 되다', example:'I learned that she had moved.', ko:'나는 그녀가 이사했다는 것을 알게 됐어요.' },
     ]
   },
-};
+    hope: {
+    meaning: '바라다, 희망하다',
+    patterns: [
+      { form:'3형식', structure:'hope + to do', meaning:'희망하다', example:'I hope to see you later.', ko:'나는 너를 나중에 보기를 원한다.' },
+      { form:'3형식', structure:'hope + that절', meaning:'바라다', example:'We hope that there will be peace all over the world.', ko:'우리는 전 세계에 평화가 있기를 바란다.' },
+    ]
+  },
+      insist: {
+    meaning: '주장하다, 강요하다',
+    patterns: [
+      { form:'1형식', structure:'insist + 전+명', meaning:'강요하다', example:'I insist on obedience.', ko:'나는 복종을 강요한다.' },
+      { form:'3형식', structure:'insist + that절', meaning:'주장하다', example:'He insists that his brother is innocent.', ko:'그는 그의 형이 무죄라고 주장한다.' },
+    ]
+  },
+  };
 
 // 동사 목록 렌더링
 const verbGrid = document.getElementById('verbGrid');
